@@ -13,31 +13,21 @@ import DadosEntrega from "./DadosEntrega";
 function FormularioCadastro({ aoEnviar, validarCPF }) {
   const [etapaAtual, setEtapaAtual] = useState(0);
 
+  const atual = [
+    <DadosUsuario aoEnviar={proximo} />,
+    <DadosPessoais
+      aoEnviar={aoEnviar}
+      validarCPF={validarCPF}
+      aoEnviar={proximo}
+    />,
+    <DadosEntrega aoEnviar={proximo} />,
+  ];
+
   function proximo() {
     setEtapaAtual(etapaAtual + 1);
   }
 
-  function formularioAtual(etapa) {
-    switch (etapa) {
-      case 0:
-        return <DadosUsuario aoEnviar={proximo} />;
-
-      case 1:
-        return (
-          <DadosPessoais
-            aoEnviar={aoEnviar}
-            validarCPF={validarCPF}
-            aoEnviar={proximo}
-          />
-        );
-      case 2:
-        return <DadosEntrega aoEnviar={aoEnviar}/>;
-      default:
-        return <Typography className="headline4"/>; 
-    }
-  }
-
-  return <>{formularioAtual(etapaAtual)}</>;
+  return <>{atual[etapaAtual]}</>;
 }
 
 export default FormularioCadastro;
