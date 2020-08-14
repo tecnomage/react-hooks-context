@@ -7,7 +7,7 @@ import {
   Typography,
   Stepper,
   Step,
-  StepLabel
+  StepLabel,
 } from "@material-ui/core";
 import DadosPessoais from "./DadosPessoais";
 import DadosUsuario from "./DadosUsuario";
@@ -18,8 +18,8 @@ function FormularioCadastro({ aoEnviar, validacoes }) {
   const [dadosColetados, setDados] = useState({});
 
   useEffect(() => {
-
-    if (etapaAtual === formularios.length-1) {
+    if (etapaAtual === formularios.length - 1) {
+      console.log(dadosColetados);
       aoEnviar(dadosColetados);
     }
   });
@@ -34,14 +34,14 @@ function FormularioCadastro({ aoEnviar, validacoes }) {
   }
 
   const formularios = [
-    <DadosUsuario aoEnviar={coletarDados} validacoes={validacoes.senha} />,
+    <DadosUsuario aoEnviar={coletarDados} validacoes={validacoes} />,
     <DadosPessoais
-      aoEnviar={aoEnviar}
+      aoEnviar={coletarDados}
       validacoes={validacoes}
       aoEnviar={coletarDados}
     />,
-    <DadosEntrega aoEnviar={proximo} />,
-    <Typography  variant='h5'>Obrigado por se cadastrar </Typography>
+    <DadosEntrega aoEnviar={coletarDados} />,
+    <Typography variant="h5">Obrigado por se cadastrar </Typography>,
   ];
 
   return (

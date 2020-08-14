@@ -11,9 +11,10 @@ export default function DadosPessoais({ aoEnviar, validacoes }) {
 
   function validarCampos(event) {
     const { name, value } = event.target;
-
     const ehValido = validacoes[name](value);
-    const novoEstado = { ...erros, name: ehValido };
+    const novoEstado = { ...erros};
+    novoEstado[name]=ehValido;
+    
     setErros(novoEstado);
   }
 

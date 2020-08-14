@@ -1,25 +1,58 @@
-import React,{useState} from "react";
+import React, { useState} from "react";
 import { TextField, Button } from "@material-ui/core";
 
-export default function DadosUsuario({aoEnviar, validacoes}) {
+export default function DadosUsuario({ aoEnviar, validacoes }) {
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [erros, setErros] = useState({ senha: { valido: true, texto: "" } });
+  //,email: { valido: true, texto: "" }
 
-  const [email,setEmail] = useState("");
-  const [senha,setSenha] = useState("");
-  
+  function validarCampos(event) {
+    const { name, value } = event.target;
+    const ehValido = validacoes[name](value);
+    const novoEstado = { ...erros };
+    novoEstado[name] = ehValido;
+
+    setErros(novoEstado);
+    console.log(erros)
+  }
+
+   function possoEnviar() {
+    for(let campo in erros) {
+     
+      if (!erros[campo].valido) {
+        console.log(!erros[campo].valido);
+        return false;
+      }
+      return true;
+      
+    }
+
+  }
+
   return (
-    <form onSubmit={(event) => {
+    <form
+      onSubmit={(event) => {
         event.preventDefault();
-        validacoes(senha);
-        console.log(senha);
-        aoEnviar({email,senha});
-        
-    }}>
+        console.log('submit')
+        console.log(possoEnviar());
+        if (possoEnviar()) {
+          aoEnviar({ email, senha });
+        }
+      }}
+    >
       <TextField
         id="email"
         label="Email"
+        name="email"
         type="email"
         value={email}
-        onChange={(event)=>{ setEmail(event.target.value)}}
+        onChange={(event) => {
+          setEmail(event.target.value);
+        }}
+        onBlur={validarCampos}
+        //error={!erros.email.valido}
+        //helperText={erros.email.texto}
         required
         variant="outlined"
         margin="normal"
@@ -28,9 +61,15 @@ export default function DadosUsuario({aoEnviar, validacoes}) {
       <TextField
         id="senha"
         label="Senha"
-        type="text"
+        name="senha"
+        type="password"
         value={senha}
-        onChange={(event)=>{ setSenha(event.target.value)}}
+        onChange={(event) => {
+          setSenha(event.target.value);
+        }}
+        onBlur={validarCampos}
+        error={!erros.senha.valido}
+        helperText={erros.senha.texto}
         required
         variant="outlined"
         margin="normal"

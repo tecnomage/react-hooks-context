@@ -6,6 +6,15 @@ function validarCPF(cpf){
     }
   }
 
+  function validarEmail(email){
+    if(email.length < 4 || email.length > 15){
+      return {valido:false, texto:"Email deve ter 4 e 15 caracteres"}
+    }else{
+      return {valido:true, texto:""}
+    }
+  }
+
+
   function validarSenha(senha){
     if(senha.length < 4 || senha.length > 72){
       return {valido:false, texto:"Senha deve ter 4 e 72 digitos"}
@@ -14,4 +23,4 @@ function validarCPF(cpf){
     }
   }
 
-  export {validarCPF,validarSenha}
+  export {validarCPF,validarEmail,validarSenha}
