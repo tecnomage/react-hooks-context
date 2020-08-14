@@ -1,7 +1,7 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { TextField, Button, Switch, FormControlLabel } from "@material-ui/core";
 
-export default function DadosPessoais({aoEnviar,validarCPF}) {
+export default function DadosPessoais({ aoEnviar, validacoes }) {
   const [nome, setNome] = useState("");
   const [sobrenome, setSobrenome] = useState("");
   const [cpf, setCpf] = useState("");
@@ -9,11 +9,19 @@ export default function DadosPessoais({aoEnviar,validarCPF}) {
   const [novidades, setNovidades] = useState(false);
   const [erros, setErros] = useState({ cpf: { valido: true, texto: "" } });
 
+  function validarCampos(event) {
+    const { name, value } = event.target;
+
+    const ehValido = validacoes[name](value);
+    const novoEstado = { ...erros, name: ehValido };
+    setErros(novoEstado);
+  }
+
   return (
     <form
       onSubmit={(event) => {
         event.preventDefault();
-        aoEnviar();
+        aoEnviar({ nome, sobrenome, cpf, promocoes, novidades, erros });
       }}
     >
       <TextField
@@ -43,13 +51,11 @@ export default function DadosPessoais({aoEnviar,validarCPF}) {
         onChange={(event) => {
           setCpf(event.target.value);
         }}
-        onBlur={(event) => {
-          const ehValido = validarCPF(cpf);
-          setErros({ cpf: ehValido });
-        }}
+        onBlur={validarCampos}
         error={!erros.cpf.valido}
         helperText={erros.cpf.texto}
         id="CPF"
+        name="cpf"
         label="CPF"
         variant="outlined"
         margin="normal"

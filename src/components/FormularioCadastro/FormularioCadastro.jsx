@@ -1,33 +1,68 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TextField,
   Button,
   Switch,
   FormControlLabel,
   Typography,
+  Stepper,
+  Step,
+  StepLabel
 } from "@material-ui/core";
 import DadosPessoais from "./DadosPessoais";
 import DadosUsuario from "./DadosUsuario";
 import DadosEntrega from "./DadosEntrega";
 
-function FormularioCadastro({ aoEnviar, validarCPF }) {
+function FormularioCadastro({ aoEnviar, validacoes }) {
   const [etapaAtual, setEtapaAtual] = useState(0);
+  const [dadosColetados, setDados] = useState({});
 
-  const atual = [
-    <DadosUsuario aoEnviar={proximo} />,
-    <DadosPessoais
-      aoEnviar={aoEnviar}
-      validarCPF={validarCPF}
-      aoEnviar={proximo}
-    />,
-    <DadosEntrega aoEnviar={proximo} />,
-  ];
+  useEffect(() => {
+
+    if (etapaAtual === formularios.length-1) {
+      aoEnviar(dadosColetados);
+    }
+  });
+
+  function coletarDados(dados) {
+    setDados({ ...dadosColetados, ...dados });
+    proximo();
+  }
 
   function proximo() {
     setEtapaAtual(etapaAtual + 1);
   }
 
-  return <>{atual[etapaAtual]}</>;
+  const formularios = [
+    <DadosUsuario aoEnviar={coletarDados} validacoes={validacoes.senha} />,
+    <DadosPessoais
+      aoEnviar={aoEnviar}
+      validacoes={validacoes}
+      aoEnviar={coletarDados}
+    />,
+    <DadosEntrega aoEnviar={proximo} />,
+    <Typography  variant='h5'>Obrigado por se cadastrar </Typography>
+  ];
+
+  return (
+    <>
+      <Stepper activeStep={etapaAtual}>
+        <Step>
+          <StepLabel>Login</StepLabel>
+        </Step>
+        <Step>
+          <StepLabel>Pessoal</StepLabel>
+        </Step>
+        <Step>
+          <StepLabel>Entrega</StepLabel>
+        </Step>
+        <Step>
+          <StepLabel>Finalização</StepLabel>
+        </Step>
+      </Stepper>
+      {formularios[etapaAtual]}
+    </>
+  );
 }
 
 export default FormularioCadastro;
