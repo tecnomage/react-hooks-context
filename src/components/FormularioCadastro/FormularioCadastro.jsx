@@ -19,7 +19,6 @@ function FormularioCadastro({ aoEnviar, validacoes }) {
 
   useEffect(() => {
     if (etapaAtual === formularios.length - 1) {
-      //console.log(dadosColetados);
       aoEnviar(dadosColetados);
     }
   });
@@ -35,10 +34,7 @@ function FormularioCadastro({ aoEnviar, validacoes }) {
 
   const formularios = [
     <DadosUsuario aoEnviar={coletarDados} validacoes={validacoes} />,
-    <DadosPessoais
-      aoEnviar={coletarDados}
-      validacoes={validacoes}
-     />,
+    <DadosPessoais aoEnviar={coletarDados} validacoes={validacoes} />,
     <DadosEntrega aoEnviar={coletarDados} />,
     <Typography variant="h5">Obrigado por se cadastrar </Typography>,
   ];
