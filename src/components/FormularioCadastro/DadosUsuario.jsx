@@ -1,12 +1,17 @@
-import React, { useState} from "react";
+import React, { useState,useContext } from "react";
 import { TextField, Button } from "@material-ui/core";
+import ValidacoesCadastro from "../../contexts/ValidacoesCadastro";
 
-export default function DadosUsuario({ aoEnviar, validacoes }) {
+export default function DadosUsuario({ aoEnviar}) {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  const [erros, setErros] = useState({ senha: { valido: true, texto: "" } });
-  //,email: { valido: true, texto: "" }
-
+  const [erros, setErros] = useState({
+    senha: { valido: true, texto: "" },
+    email: { valido: true, texto: "" },
+  });
+  
+  const validacoes = useContext(ValidacoesCadastro);
+  
   function validarCampos(event) {
     const { name, value } = event.target;
     const ehValido = validacoes[name](value);
@@ -14,27 +19,24 @@ export default function DadosUsuario({ aoEnviar, validacoes }) {
     novoEstado[name] = ehValido;
 
     setErros(novoEstado);
-    console.log(erros)
+    console.log(erros);
   }
 
-   function possoEnviar() {
-    for(let campo in erros) {
-     
+  function possoEnviar() {
+    for (let campo in erros) {
       if (!erros[campo].valido) {
         console.log(!erros[campo].valido);
         return false;
       }
       return true;
-      
     }
-
   }
 
   return (
     <form
       onSubmit={(event) => {
         event.preventDefault();
-        console.log('submit')
+        console.log("submit");
         console.log(possoEnviar());
         if (possoEnviar()) {
           aoEnviar({ email, senha });
@@ -51,8 +53,8 @@ export default function DadosUsuario({ aoEnviar, validacoes }) {
           setEmail(event.target.value);
         }}
         onBlur={validarCampos}
-        //error={!erros.email.valido}
-        //helperText={erros.email.texto}
+        error={!erros.email.valido}
+        helperText={erros.email.texto}
         required
         variant="outlined"
         margin="normal"
