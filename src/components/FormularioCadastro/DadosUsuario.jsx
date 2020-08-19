@@ -6,26 +6,28 @@ export default function DadosUsuario({ aoEnviar}) {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [erros, setErros] = useState({
-    senha: { valido: true, texto: "" },
     email: { valido: true, texto: "" },
+    senha: { valido: true, texto: "" },
   });
   
   const validacoes = useContext(ValidacoesCadastro);
   
   function validarCampos(event) {
+    //console.log(validacoes);
     const { name, value } = event.target;
+    console.log(name + '  '+ value + ' é ' + erros[name].valido)
     const ehValido = validacoes[name](value);
     const novoEstado = { ...erros };
     novoEstado[name] = ehValido;
 
     setErros(novoEstado);
-    console.log(erros);
+    //console.log(erros);
   }
 
   function possoEnviar() {
     for (let campo in erros) {
       if (!erros[campo].valido) {
-        console.log(!erros[campo].valido);
+        console.log(erros[campo].valido);
         return false;
       }
       return true;

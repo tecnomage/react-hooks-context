@@ -12,7 +12,7 @@ render() {
     return (
       <Container component="article" maxWidth="sm">
         <Typography variant="h3" component="h1" align="center" >Formulário de cadastro</Typography>
-        <ValidacoesCadastro.Provider value={{cpf:validarCPF, senha:validarSenha,email:validarEmail,nome:validarNome}}>
+        <ValidacoesCadastro.Provider value={{cpf:validarCPF,senha:validarSenha,email:validarEmail,nome:validarNome}}>
         <FormularioCadastro aoEnviar={aoEnviarForm} />
         </ValidacoesCadastro.Provider>
       </Container>
