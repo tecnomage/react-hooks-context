@@ -18,16 +18,16 @@ class App extends Component {
         <Typography variant="h3" component="h1" align="center">
           Formulário de cadastro
         </Typography>
-        <ValidacoesCadastro.Provider
+        {/* <ValidacoesCadastro.Provider
           value={{
             cpf: validarCPF,
             senha: validarSenha,
             email: validarEmail,
             nome: validarNome,
           }}
-        >
+        > */}
           <FormularioCadastro aoEnviar={aoEnviarForm} />
-        </ValidacoesCadastro.Provider>
+        {/* </ValidacoesCadastro.Provider> */}
       </Container>
     );
   }
